@@ -1,0 +1,13 @@
+[package]
+name = "iron_blog"
+version = "0.1.0"
+authors = ["SethDusek <shibe@openmailbox.org>"]
+
+[dependencies.pulldown-cmark]
+git = "https://github.com/google/pulldown-cmark.git"
+
+[dependencies.iron]
+path = "../iron"
+
+[lib]
+crate-type = ["dylib"]
