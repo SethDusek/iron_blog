@@ -1,13 +1,23 @@
 [package]
+authors = ["SethDusek <shibe@openmailbox.org>"]
 name = "iron_blog"
 version = "0.1.0"
-authors = ["SethDusek <shibe@openmailbox.org>"]
+
+[dependencies]
+iron = "*"
+lazy_static = "0.2.0"
+regex = "0.1.65"
+rustc-serialize = "0.3.19"
+serde = "*"
+serde_macros = "0.7.4"
+serde_yaml = "0.2.4"
+time = "0.1.35"
+
+[dependencies.mustache]
+git = "https://github.com/nickel-org/rust-mustache.git"
 
 [dependencies.pulldown-cmark]
 git = "https://github.com/google/pulldown-cmark.git"
-
-[dependencies.iron]
-path = "../iron"
 
 [lib]
 crate-type = ["dylib"]
