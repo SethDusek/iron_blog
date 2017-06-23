@@ -4,8 +4,8 @@ name = "iron_blog"
 version = "0.1.0"
 
 [dependencies]
-diesel = "*"
-diesel_codegen = "*"
+diesel = {version = "0.13.0", features = ["postgres"]}
+diesel_codegen = {version = "0.13.0", features = ["postgres"]}
 dotenv = "0.10.0"
 iron = "*"
 lazy_static = "0.2.0"
