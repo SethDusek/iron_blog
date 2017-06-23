@@ -4,6 +4,9 @@ name = "iron_blog"
 version = "0.1.0"
 
 [dependencies]
+diesel = "0.13.0"
+diesel_codegen = "0.13.0"
+dotenv = "0.10.0"
 iron = "*"
 lazy_static = "0.2.0"
 regex = "0.1.65"
