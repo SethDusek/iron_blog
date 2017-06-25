@@ -4,13 +4,20 @@ name = "iron_blog"
 version = "0.1.0"
 
 [dependencies]
-diesel = {version = "0.13.0", features = ["postgres"]}
-diesel_codegen = {version = "0.13.0", features = ["postgres"]}
+clap = "2.25.0"
 dotenv = "0.10.0"
 iron = "*"
 lazy_static = "0.2.0"
 regex = "0.1.65"
 time = "0.1.35"
+
+[dependencies.diesel]
+features = ["postgres"]
+version = "0.13.0"
+
+[dependencies.diesel_codegen]
+features = ["postgres"]
+version = "0.13.0"
 
 [dependencies.mustache]
 git = "https://github.com/nickel-org/rust-mustache.git"
