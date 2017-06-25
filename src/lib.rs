@@ -7,6 +7,7 @@ pub mod schema;
 pub use diesel::prelude::*;
 pub use diesel::pg::PgConnection;
 use schema::posts;
+///The post type. This can be retrieved from the Blog type and also used for insertion of new posts
 #[derive(Queryable,Debug)]
 pub struct Post {
     pub id: i64,
@@ -17,7 +18,7 @@ pub struct Post {
 }
 #[derive(Insertable)]
 #[table_name="posts"]
-struct Poster<'a> {
+struct Poster<'a> { //this poster type is not made public as it is only temporarily created and you dont need to concern yourself with this
     title: &'a str,
     filename: &'a str,
     author: &'a str,
@@ -34,7 +35,7 @@ impl Post {
         }
     }
 }
-
+///The builder type for Post. Use this to initialize the Post struct instead of doing it yourself
 pub struct PostBuilder {
     id: i64,
     title: String,
@@ -44,6 +45,7 @@ pub struct PostBuilder {
 }
 
 impl PostBuilder {
+    ///Create a new PostBuilder with empty/default values
     pub fn new() -> PostBuilder {
         PostBuilder {
             id: 0,
@@ -86,7 +88,13 @@ impl PostBuilder {
 }
 
         
-
+///The blog type contains the database connection, and can be used to publish or retrieve posts. It
+///implements Deref and can be used to access the PgConnection inside
+/// ```
+/// let blog = Blog::new(url).expect("Failed to connect/invalid url");
+/// posts.count().get_result::<i64>(&*blog).unwrap()
+/// 
+/// 
 pub struct Blog {
     connection: PgConnection
 }
@@ -96,12 +104,18 @@ impl Blog {
     pub fn new(url: &str) -> ConnectionResult<Self> {
         Ok(Blog { connection: PgConnection::establish(url)? })
     }
+    /// Publishes the Post, inserting it into the database. This ignores the id of the Post,
+    /// generating its own and returning a new struct with the created id
     pub fn publish(&mut self, post: Post) -> Result<Post, diesel::result::Error> {
         diesel::insert(&post.inserter()).into(posts::table).get_result(&self.connection)
+    }
+    pub fn find_id(&mut self, id_find: i64) -> Result<Post, diesel::result::Error> {
+        posts::table.filter(posts::id.eq(id_find)).first(&self.connection)
     }
     pub fn connection(self) -> PgConnection {
         self.connection
     }
+
 }
 
 impl std::ops::Deref for Blog {
