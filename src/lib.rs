@@ -90,9 +90,11 @@ impl PostBuilder {
         
 ///The blog type contains the database connection, and can be used to publish or retrieve posts. It
 ///implements Deref and can be used to access the PgConnection inside
+///#Example
 /// ```
-/// let blog = Blog::new(url).expect("Failed to connect/invalid url");
-/// posts.count().get_result::<i64>(&*blog).unwrap()
+///let blog = Blog::new(url).unwrap();
+///posts.count().get_result::<i64>(&*blog).unwrap()
+/// ```
 /// 
 /// 
 pub struct Blog {
@@ -109,9 +111,11 @@ impl Blog {
     pub fn publish(&mut self, post: Post) -> Result<Post, diesel::result::Error> {
         diesel::insert(&post.inserter()).into(posts::table).get_result(&self.connection)
     }
-    pub fn find_id(&mut self, id_find: i64) -> Result<Post, diesel::result::Error> {
-        posts::table.filter(posts::id.eq(id_find)).first(&self.connection)
+    /// Finds a post within the database that matches the id. Returns None if it cannot find a post with a matching id.
+    pub fn find_id(&mut self, id_find: i64) -> Option<Post> {
+        posts::table.filter(posts::id.eq(id_find)).first(&self.connection).ok()
     }
+    /// Consumes the Blog to return the PgConnection inside
     pub fn connection(self) -> PgConnection {
         self.connection
     }
