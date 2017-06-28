@@ -25,3 +25,6 @@ git = "https://github.com/nickel-org/rust-mustache.git"
 [dependencies.pulldown-cmark]
 git = "https://github.com/google/pulldown-cmark.git"
 
+[[bin]]
+name = "main"
+doc = false
