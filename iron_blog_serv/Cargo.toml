@@ -1,0 +1,28 @@
+[package]
+authors = ["SethDusek <shibe@openmailbox.org>"]
+name = "iron_blog_serv"
+version = "0.1.0"
+
+[dependencies]
+clap = "2.25.0"
+dotenv = "0.10.0"
+iron = "*"
+lazy_static = "0.2.0"
+regex = "0.1.65"
+time = "0.1.35"
+iron_blog = { version = "*", path = "../iron_blog" }
+
+[dependencies.diesel]
+features = ["postgres"]
+version = "0.13.0"
+
+[dependencies.diesel_codegen]
+features = ["postgres"]
+version = "0.13.0"
+
+[dependencies.mustache]
+git = "https://github.com/nickel-org/rust-mustache.git"
+
+[dependencies.pulldown-cmark]
+git = "https://github.com/google/pulldown-cmark.git"
+
