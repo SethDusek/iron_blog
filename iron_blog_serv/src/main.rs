@@ -2,10 +2,12 @@ extern crate dotenv;
 extern crate iron_blog;
 extern crate clap;
 extern crate time as libtime;
+extern crate termion;
 use iron_blog::*;
 use std::io::stdin;
 use clap::SubCommand;
 use std::str::FromStr;
+use termion::terminal_size;
 
 fn time() -> i64 {
     libtime::get_time().sec
@@ -36,10 +38,9 @@ On: {}
 
 fn list(blog: &mut Blog) -> Result<(), Box<std::error::Error>> {
     let list = blog.list()?;
-    let columns = usize::from_str(&std::env::var("COLUMNS").unwrap()).unwrap();
-    print!("foo");
-    let mut line = String::with_capacity(columns);
-    for i in 0..columns {
+    let columns = terminal_size()?.0;
+    let mut line = String::with_capacity(columns as usize);
+    for _ in 0..columns {
         line.push('-');
     }
     for i in &list {

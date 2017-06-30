@@ -9,8 +9,8 @@ dotenv = "0.10.0"
 iron = "*"
 lazy_static = "0.2.0"
 regex = "0.1.65"
+termion = "1.4.0"
 time = "0.1.35"
-iron_blog = { version = "*", path = "../iron_blog" }
 
 [dependencies.diesel]
 features = ["postgres"]
@@ -20,9 +20,12 @@ version = "0.13.0"
 features = ["postgres"]
 version = "0.13.0"
 
+[dependencies.iron_blog]
+path = "../iron_blog"
+version = "*"
+
 [dependencies.mustache]
 git = "https://github.com/nickel-org/rust-mustache.git"
 
 [dependencies.pulldown-cmark]
 git = "https://github.com/google/pulldown-cmark.git"
-
