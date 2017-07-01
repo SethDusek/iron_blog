@@ -52,22 +52,27 @@ fn list(blog: &mut Blog) -> Result<(), Box<std::error::Error>> {
 
 
 fn main() { 
-    let url = dotenv::var("DATABASE_URL").unwrap();
+    let url = if let Ok(url) = dotenv::var("DATABASE_URL") { url } else { std::process::exit(1) };
     let mut blog = Blog::new(&url).expect("Failed to connect to the blog");
-    let args = clap::App::new("Iron Blog")
-        .version("0.0")
+    let mut app = clap::App::new("Iron Blog")
+        .version(env!("CARGO_PKG_VERSION"))
         .about("A blogging application")
         .subcommand(SubCommand::with_name("publish")
              .help("Publishes a blogpost")
+             .about("Publishes a blogpost")
              )
         .subcommand(SubCommand::with_name("list")
+                    .about("Lists all the currently published posts")
                     .help("Lists all the posts in the table")
-                    )
-        .get_matches();
+            );
+    let args = app.clone().get_matches();
     if args.is_present("publish") {
         publish(&mut blog).expect("Failed to publish");
     }
     else if args.is_present("list") {
         list(&mut blog).expect("Failed to list");
+    }
+    else {
+        app.print_help().unwrap();
     }
 }
